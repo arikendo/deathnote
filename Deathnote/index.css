@@ -1,0 +1,127 @@
+#body {
+    background: #000000;
+    color: white;
+}
+
+#nextWord {
+    font-size: 3em;
+    display: block;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    color: red;
+    opacity: 50%;
+    filter:alpha(opacity=50);
+    text-shadow: 0rem 0rem 0.25rem #ff0000;
+}
+
+@keyframes horizontal-shaking {
+    0% { transform: translateX(0px) }
+    25% { transform: translateX(5px) }
+    50% { transform: translateX(-5px) }
+    75% { transform: translateX(5px) }
+    100% { transform: translateX(0px) }
+}
+
+.horizTranslate {
+    animation: horizontal-shaking 0.35s;
+}
+
+#welcomeImg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+}
+
+#lightYagamiPic {
+    width: 50%;
+    float: inline-block;
+    opacity: 0.5;
+    filter:alpha(opacity=50); 
+}
+
+#lightYagamiPic:hover {
+    opacity: 1.0;
+    filter:alpha(opacity=100); 
+}
+
+#misaAmanePic {
+    width: 50%;
+    float: inline-block;
+    opacity: 0.5;
+    filter:alpha(opacity=50); 
+}
+
+#misaAmanePic:hover {
+    opacity: 1.0;
+    filter:alpha(opacity=100); 
+}
+
+h1, h2, p, span  {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    color: #F5F0F0;
+    font-family: 'EB Garamond', serif;
+    line-height: 1.5;
+    font-weight: 500;
+    text-shadow: 0rem 0rem 0.25rem #FFFFFF;
+    text-align: center;
+}
+
+#postGame {
+    font-size: 3em;
+}
+
+p {
+    font-size: 3em;
+}
+
+#scoreText, #score {
+    font-size: 3em;
+    display: none;
+}
+
+#legend27 {
+    font-size: 5em;
+}
+
+#wordStuff {
+    font-size: 4em;
+    display: block;
+    text-align: center;
+}
+
+#welcomeMessage {
+    display: block;
+}
+
+#gameElements {
+    display: none;
+}
+
+#preGame {
+    display: flex;
+    overflow: auto;
+}
+
+#inGame {
+    text-align: center;
+}
+
+#postWord {
+    opacity: 50%;
+}
+
+#postGame {
+    display: none;
+}
+
+#postGame {
+    text-align: center;
+}
