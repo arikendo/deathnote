@@ -4,7 +4,10 @@ var nextWord = '';
 var score = 0;
 var character = '';
 var start;
-var combo = 5;
+var combo = 1;
+var wordSequence = 0;
+var sus = 0;
+var agents = [] // the investigation team + FBI agents
 
 const inputHandler = function(e) {
     result.innerText = e.target.value;
@@ -36,23 +39,44 @@ function typing(e) {
     var post = document.getElementById("postWord");
     var score_element = document.getElementById("score");
     var comboText = document.getElementById("combo");
+    var susText = document.getElementById("sus");
     
     if ((typed+key).toLowerCase() === word.slice(0, typed.length+1).toLowerCase()) {
         typed += key;
         pre.innerHTML = typed.toLowerCase();
         post.innerHTML = word.slice(typed.length, word.length+1);
     } else {
-        combo = 5;
+        if (character === "Light") {
+            sus += 20;
+        } else {
+            sus += 34
+        }
+
+        if (sus >= 100) {
+            endGame();
+        }
+
+        combo = 1;
         var wordStuff = document.getElementById("wordStuff");
         wordStuff.classList.add('horizTranslate');
         setTimeout(stopShake, 350);
     }
 
     if (typed.length === word.length) {
-        combo = combo + 1;
-        if (combo%5 === 0) {
+        wordSequence = wordSequence + 1;
+
+        if (wordSequence === 5) {
+            wordSequence = 0;
+            combo += 1;
             sound();
         }
+
+        if (sus >= 5) {
+            sus -= 5;
+        } else {
+            sus = 0;
+        }
+
         typed = "";
         if (character === "Misa") {
             var nextWord_element = document.getElementById("nextWord");
@@ -64,10 +88,11 @@ function typing(e) {
         }        
         pre.innerHTML = "";
         post.innerHTML = word;
-        score += 100 * Math.floor((combo/5));
+        score += 100 * combo;
         score_element.innerHTML = " " + score;
     }
-    comboText.innerHTML = "combo " + Math.floor((combo/5));
+    comboText.style.height = (combo * 20) + "%";
+    susText.style.height = sus + "%";
 }
 
 function endGame() {
@@ -111,8 +136,28 @@ function gameStart(str) {
     score_text.style.display = "inline-block"
     score_element.innerHTML = " " + score;
 
+    sus = 0;
+    var susText = document.getElementById("sus");
+    var susContainer = document.getElementById("susContainer");
+    susContainer.style.display = "block";
+    susText.style.display = "block";
+    susText.style.height = sus + "%";
+
+    combo = 1;
+    var comboText = document.getElementById("combo");
+    var comboContainer = document.getElementById("comboContainer");
+    comboContainer.style.display = "block";
+    comboText.style.display = "block";
+    comboText.style.height = combo + "%";
+
     var postGame = document.getElementById("postGame");
     postGame.style.display = "none";
+
+    word = random();
+    var post = document.getElementById("postWord");
+    var pre = document.getElementById("preWord");
+    pre.innerHTML = "";
+    post.innerHTML = word;
 
     character = str;
     if (character === "Misa") {
@@ -124,11 +169,7 @@ function gameStart(str) {
     var x = document.getElementById("preGame");
     var y = document.getElementById("inGame");
     var comboText = document.getElementById("combo");
-    comboText.innerHTML = "combo " + Math.floor((combo/5));
-    
-    word = random();
-    var post = document.getElementById("postWord");
-    post.innerHTML = word;
+    comboText.style.height = (combo*20) + "%";
 
     x.style.display = "none";
     y.style.display = "block";    

@@ -10,7 +10,7 @@
         <title>Death Note</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="Deathnote/index.css">
         <script src="Deathnote/index.js" async defer></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -45,7 +45,16 @@
             <div id="inGame">
                 <span id="scoreText">Followers:</span><span id="score"></span>
                 <p id="seconds"></p>
-                <p id="combo"></p>
+                <!-- <p id="comboText">Combo Meter</p> -->
+                <div id="comboContainer" class="barcontainer">
+                    <div id="combo" class="bar" style="height:70%">
+                    </div>
+                </div>
+                <!-- <p id="susText">Combo Meter</p> -->
+                <div id="susContainer" class="barcontainer">
+                    <div id="sus" class="bar" style="height:70%">
+                    </div>
+                </div>
                 <div id="wordStuff">
                     <span id="preWord"></span><span id="postWord"></span>
                 </div>  
