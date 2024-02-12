@@ -45,6 +45,18 @@ function typing(e) {
         typed += key;
         pre.innerHTML = typed.toLowerCase();
         post.innerHTML = word.slice(typed.length, word.length+1);
+    } else if(e.which === 13) {
+        typed = "";
+        if (character === "Misa") {
+            var nextWord_element = document.getElementById("nextWord");
+            word = nextWord;
+            nextWord = random();
+            nextWord_element.innerHTML = nextWord;
+        } else {
+            word = random()
+        }        
+        pre.innerHTML = "";
+        post.innerHTML = word;
     } else {
         if (character === "Light") {
             sus += 20;
@@ -68,6 +80,9 @@ function typing(e) {
         if (wordSequence === 5) {
             wordSequence = 0;
             combo += 1;
+            if (combo >= 6) {
+                combo = 6
+            }            
             sound();
         }
 
@@ -89,10 +104,10 @@ function typing(e) {
         pre.innerHTML = "";
         post.innerHTML = word;
         score += 100 * combo;
-        score_element.innerHTML = " " + score;
+        score_element.innerHTML = ": " + score;
     }
-    comboText.style.height = (combo * 20) + "%";
-    susText.style.height = sus + "%";
+    comboText.style.width = ((combo-1) * 20) + "%";
+    susText.style.width = sus + "%";
 }
 
 function endGame() {
@@ -102,7 +117,7 @@ function endGame() {
 
     x.style.display = "none";
     y.style.display = "block";
-    scoreText.innerHTML = " " + score;
+    scoreText.innerHTML = ": " + score;
 }
 
 function sound() {
@@ -134,21 +149,21 @@ function gameStart(str) {
     var score_text = document.getElementById("scoreText");
     score_element.style.display = "inline-block";
     score_text.style.display = "inline-block"
-    score_element.innerHTML = " " + score;
+    score_element.innerHTML = ": " + score;
 
     sus = 0;
     var susText = document.getElementById("sus");
     var susContainer = document.getElementById("susContainer");
     susContainer.style.display = "block";
     susText.style.display = "block";
-    susText.style.height = sus + "%";
+    susText.style.width = sus + "%";
 
     combo = 1;
     var comboText = document.getElementById("combo");
     var comboContainer = document.getElementById("comboContainer");
     comboContainer.style.display = "block";
     comboText.style.display = "block";
-    comboText.style.height = combo + "%";
+    comboText.style.width = combo + "%";
 
     var postGame = document.getElementById("postGame");
     postGame.style.display = "none";
@@ -169,7 +184,7 @@ function gameStart(str) {
     var x = document.getElementById("preGame");
     var y = document.getElementById("inGame");
     var comboText = document.getElementById("combo");
-    comboText.style.height = (combo*20) + "%";
+    comboText.style.width = ((combo-1)*20) + "%";
 
     x.style.display = "none";
     y.style.display = "block";    

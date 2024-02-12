@@ -6,10 +6,8 @@
 #nextWord {
     font-size: 3em;
     display: block;
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: auto;
+    /* transform: translate(-50%, -50%); */
     left: 50%;
     color: red;
     opacity: 50%;
@@ -95,7 +93,6 @@ p {
     font-size: 4em;
     display: block;
     text-align: center;
-    margin-left: 125px;
 }
 
 #welcomeMessage {
@@ -130,16 +127,13 @@ p {
 .barcontainer{
     background-color: #181818;
     position: relative;
-    margin-left: 50px;
-    /* width: 30px;
-    height: 800px; */
-    width: 30px;
-    height: 700px;
+    height: 30px;
+    width: 700px;
     display: none;
 }
 
 #susContainer, #sus {
-    float: left;
+    margin: auto;
 }
 
 #sus {
@@ -147,8 +141,7 @@ p {
 }
 
 #comboContainer, #combo {
-    float: right;
-    margin-right: 50px;
+    margin: auto;
 }
 
 #combo {
@@ -158,7 +151,7 @@ p {
 .bar{
     position: absolute;
     bottom: 0;
-    width: 100%;
-    height: 80%;
+    height: 100%;
+    width: 80%;
     display: none;
 }
