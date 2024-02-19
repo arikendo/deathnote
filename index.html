@@ -49,6 +49,8 @@
                     <span id="preWord"></span><span id="postWord"></span>
                 </div>  
                 <p id="nextWord"></p>
+                <canvas id="face" width="32" height="32"></canvas>
+                <p id="crime"></p>
                 <br>
                 <p id="comboText">Combo Meter</p>
                 <div id="comboContainer" class="barcontainer">
@@ -60,9 +62,10 @@
                     <div id="sus" class="bar" style="width:70%">
                     </div>
                 </div>
+                
             </div>
             <div id="postGame">
-                <span>Follow Count:</span><span id="postScore"></span>
+                <span>Follow Count</span><span id="postScore"></span>
                 <button onClick="gameStart('Light')">Play Again (Light)</button>
                 <button onClick="gameStart('Misa')">Play Again (Misa)</button>
             </div>

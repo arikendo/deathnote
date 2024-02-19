@@ -51,6 +51,46 @@ function stopShake() {
     wordStuff.classList.remove('horizTranslate');
 }
 
+function newFace() {
+    var face = document.getElementById("face").getContext("2d");
+    const image = new Image();
+    image.onload = () => {
+        // Draw the image into the canvas
+        face.clearRect(0, 0, face.canvas.width, face.canvas.height);
+        face.drawImage(image, 0, 0);
+    };
+    file = randomFace();
+    image.src = file
+    console.log(file)
+}
+
+function newCrime() {
+    var n = Math.floor(Math.random() * crimes.length);
+    return crimes[n];
+}
+
+function setNewCrime() {
+    var crime = document.getElementById("crime");
+    if (word === "l lawliet") {
+        crime.innerHTML = "crime: challenging God"
+    } else if (agents.includes(word)) {
+        crime.innerHTML = "crime: stopping justice"
+    } else {
+        crime.innerHTML = "crime: " + newCrime();
+    }
+}
+
+function randomFace() {
+    var n = Math.floor(Math.random() * 78)+1;
+    if (n < 10) {
+        var file = "Deathnote/portrait-files/tile00" + String(n)
+    } else {
+        var file = "Deathnote/portrait-files/tile0" + String(n)
+    }
+    return file + ".png"
+    
+}
+
 function typing(e) {
     key = String.fromCharCode(e.which);
 
@@ -59,6 +99,7 @@ function typing(e) {
     var score_element = document.getElementById("score");
     var comboText = document.getElementById("combo");
     var susText = document.getElementById("sus");
+    var crime = document.getElementById("crime");
     
     if ((typed+key).toLowerCase() === word.slice(0, typed.length+1).toLowerCase()) {
         typed += key;
@@ -71,8 +112,12 @@ function typing(e) {
             word = nextWord;
             nextWord = random();
             nextWord_element.innerHTML = nextWord;
+            newFace();
+            setNewCrime();
         } else {
             word = random()
+            newFace();
+            setNewCrime();
         }        
         pre.innerHTML = "";
         post.innerHTML = word;
@@ -97,7 +142,11 @@ function typing(e) {
 
     if (typed.length === word.length) {
         if (agents.includes(word) && !l_dead) {
-            sus += 50;
+            sus += 20;
+
+            if (sus >= 100) {
+                endGame();
+            }
         }
 
         if (word === "l lawliet") {
@@ -129,8 +178,12 @@ function typing(e) {
             word = nextWord;
             nextWord = random();
             nextWord_element.innerHTML = nextWord;
+            newFace();
+            setNewCrime();
         } else {
-            word = random()
+            word = random();
+            newFace();
+            setNewCrime();
         }        
         pre.innerHTML = "";
         post.innerHTML = word;
@@ -152,7 +205,7 @@ function endGame() {
 }
 
 function sound() {
-    var snd = new Audio('kill.wav')//wav is also supported
+    var snd = new Audio('Deathnote/kill.wav')//wav is also supported
     snd.play()//plays the sound
 }
 
@@ -183,23 +236,37 @@ function gameStart(str) {
     score_element.innerHTML = ": " + score;
 
     sus = 0;
-    var susText = document.getElementById("sus");
+    var susPercent = document.getElementById("sus");
     var susContainer = document.getElementById("susContainer");
+    var susText = document.getElementById("susText");
     susContainer.style.display = "block";
+    susPercent.style.display = "block";
     susText.style.display = "block";
-    susText.style.width = sus + "%";
+    susPercent.style.width = sus + "%";
 
     combo = 1;
-    var comboText = document.getElementById("combo");
+    var comboPercent = document.getElementById("combo");
     var comboContainer = document.getElementById("comboContainer");
+    var comboText = document.getElementById("comboText");
     comboContainer.style.display = "block";
+    comboPercent.style.display = "block";
     comboText.style.display = "block";
-    comboText.style.width = combo + "%";
+    comboPercent.style.width = combo + "%";
 
     var postGame = document.getElementById("postGame");
     postGame.style.display = "none";
 
+    var crime = document.getElementById("crime");
+    crime.style.display = "block";
+
+    var face = document.getElementById("face");
+    face.style.display = "inline-block";
+
     word = random();
+    newFace();
+    setNewCrime();
+    
+
     typed = "";
     var post = document.getElementById("postWord");
     var pre = document.getElementById("preWord");
@@ -236,6 +303,22 @@ function gameEnd() {
     y.style.display = "none"
     z.style.display = "block"
 }
+
+let crimes = [
+    "homicide",
+    "sex trafficking",
+    "statutory rape",
+    "rape",
+    "assault",
+    "battery",
+    "embezzlement",
+    "tax evasion",
+    "driving under the influence",
+    "drug possession",
+    "insurance fraud",
+    "vandalism",
+    "theft"
+]
 
 let names = [
     "L Lawliet",

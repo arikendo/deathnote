@@ -15,6 +15,13 @@
     text-shadow: 0rem 0rem 0.25rem #ff0000;
 }
 
+#face {
+    width: 218px;
+    height: 218px;
+    image-rendering: pixelated;
+    display: none;
+} 
+
 @keyframes horizontal-shaking {
     0% { transform: translateX(0px) }
     25% { transform: translateX(5px) }
@@ -146,6 +153,10 @@ p {
 
 #combo {
     background-color: #ffff6b;
+}
+
+#comboText, #susText {
+    display: none
 }
     
 .bar{
