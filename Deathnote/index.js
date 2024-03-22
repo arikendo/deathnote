@@ -29,6 +29,7 @@ var agents = [
     "nikola nasberg"
 ] // the investigation team + FBI agents
 var l_dead;
+var threshold;
 
 const inputHandler = function(e) {
     result.innerText = e.target.value;
@@ -61,7 +62,6 @@ function newFace() {
     };
     file = randomFace();
     image.src = file
-    console.log(file)
 }
 
 function newCrime() {
@@ -138,6 +138,7 @@ function typing(e) {
         var wordStuff = document.getElementById("wordStuff");
         wordStuff.classList.add('horizTranslate');
         setTimeout(stopShake, 350);
+        wordSequence = 0;
     }
 
     if (typed.length === word.length) {
@@ -162,8 +163,13 @@ function typing(e) {
                 combo = 6
             }            
             sound();
+            rounded = Math.round(score/100)*100
+            // threshold += 10 - Math.round((Math.round(sus/10) + (rounded/1000)));
+            threshold += 10 - (Math.round(sus/10));
+            var delta = Date.now() - start; // milliseconds elapsed since start
+            currentSecs = Math.floor(delta / 1000); // in seconds
+            document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
         }
-        
         if (!l_dead) {
             if (sus >= 5) {
                 sus -= 5;
@@ -194,6 +200,7 @@ function typing(e) {
     susText.style.width = sus + "%";
 }
 
+
 function endGame() {
     var x = document.getElementById("inGame");
     var y = document.getElementById("postGame");
@@ -214,13 +221,13 @@ function startTime() {
     currentSecs = Math.floor(delta / 1000); // in seconds
     
     if (character === "Light") {
-        document.getElementById('seconds').innerHTML = "Time: " + Number(60 - currentSecs);
-        if (currentSecs >= 60) {
+        document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
+        if (currentSecs >= threshold) {
             endGame(); 
         }
     } else if(character === "Misa") {
-        document.getElementById('seconds').innerHTML = "Time: " + Number(45 - currentSecs);
-        if(currentSecs >= 45) {
+        document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
+        if(currentSecs >= threshold) {
             endGame();
         }
     }
@@ -234,6 +241,8 @@ function gameStart(str) {
     score_element.style.display = "inline-block";
     score_text.style.display = "inline-block"
     score_element.innerHTML = ": " + score;
+    score = 0;
+    wordSequence = 0;
 
     sus = 0;
     var susPercent = document.getElementById("sus");
@@ -280,6 +289,9 @@ function gameStart(str) {
         var nextWord_element = document.getElementById("nextWord");
         nextWord = random();
         nextWord_element.innerHTML = nextWord;
+        threshold = 45;
+    } else {
+        threshold = 60;
     }
 
     var x = document.getElementById("preGame");
