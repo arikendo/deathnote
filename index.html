@@ -16,6 +16,8 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
     </head>
     <body id="body">
         <!--[if lt IE 7]>
@@ -24,17 +26,14 @@
 
         <div></div>
         <div id="welcomeMessage">
-            <br>
-            <br>
-            <br>
-            <h1 id="legend27">The Legend27 of Kira The Saviour.</h1>
+            <h1 id="legend27">The Legend of Kira The Saviour.</h1>
             <br>
             <br>
             <img id="welcomeImg" src="Deathnote/image01.jpg">
             <br>
             <br>
             <br>
-            <h2 onClick="showGame()">Continue</h2>
+            <h2 id="continue" onClick="showGame()">Continue</h2>
         </div>
         <div id="gameElements">
             <br>
@@ -45,11 +44,19 @@
             <div id="inGame">
                 <span id="scoreText">Followers</span><span id="score"></span>
                 <p id="seconds"></p>
+                <div>
+                    <span id="suspicion">Suspicion:</span><span id="susText"></span>
+                    <div id="chartContainer"></div>
+                </div>
+               
+                
                 <div id="wordStuff">
                     <span id="preWord"></span><span id="postWord"></span>
+                    <p id="nextWord"></p>
+                    <canvas id="face" width="32" height="32"></canvas>
                 </div>  
-                <p id="nextWord"></p>
-                <canvas id="face" width="32" height="32"></canvas>
+                
+                
                 <p id="crime"></p>
                 <br>
                 <p id="comboText">Combo Meter</p>
@@ -57,11 +64,11 @@
                     <div id="combo" class="bar" style="width:70%">
                     </div>
                 </div>
-                <p id="susText">Sus Meter</p>
+                <!-- <p id="susText">Sus Meter</p>
                 <div id="susContainer" class="barcontainer">
                     <div id="sus" class="bar" style="width:70%">
                     </div>
-                </div>
+                </div> -->
                 
             </div>
             <div id="postGame">

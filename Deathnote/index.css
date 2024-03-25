@@ -1,18 +1,29 @@
+@font-face {
+    font-family: "pixelFont";
+    src: url('pixelated-times-new-roman.ttf');
+}
+
+html {
+    font-family: "pixelFont";
+}
+
 #body {
     background: #000000;
     color: white;
 }
 
 #nextWord {
-    font-size: 3em;
+    font-size: 1em;
+    text-align: center;
     display: block;
-    margin: auto;
+    align-items: center;
+    justify-content: center;
     /* transform: translate(-50%, -50%); */
-    left: 50%;
     color: red;
     opacity: 50%;
     filter:alpha(opacity=50);
     text-shadow: 0rem 0rem 0.25rem #ff0000;
+    line-height: 1;
 }
 
 #face {
@@ -20,6 +31,9 @@
     height: 218px;
     image-rendering: pixelated;
     display: none;
+    position: relative;
+    float: center;
+    filter: invert(0.5);
 } 
 
 @keyframes horizontal-shaking {
@@ -65,6 +79,10 @@
     filter:alpha(opacity=100); 
 }
 
+#seconds {
+    padding-bottom: 0px;
+}
+
 h1, h2, p, span  {
     margin: 0;
     padding: 0;
@@ -72,11 +90,26 @@ h1, h2, p, span  {
     font: inherit;
     vertical-align: baseline;
     color: #F5F0F0;
-    font-family: 'EB Garamond', serif;
-    line-height: 1.5;
+    /* font-family: 'EB Garamond', serif; */
+    font-family: "pixelFont";
+    line-height: 1;
     font-weight: 500;
     text-shadow: 0rem 0rem 0.25rem #FFFFFF;
     text-align: center;
+}
+
+.canvasjs-chart-credit {
+    display: none;
+}
+
+#chartContainer {
+    display: flex;
+    position: fixed;
+    left: 0;
+    height: 300px; 
+    width: 300px;
+    padding-left: 2em;
+    padding-top: 5em;
 }
 
 #postGame {
@@ -92,14 +125,33 @@ p {
     display: none;
 }
 
+#suspicion, #susText {
+    font-size: 3em;
+    display: none;
+    position: fixed;
+    left: 0;
+    padding-left: 2em;
+}
+
+#susText { 
+    padding-left: 5em;
+}
+
 #legend27 {
-    font-size: 5em;
+    font-size: 8em;
+}
+
+#continue {
+    font-size: 3em;
 }
 
 #wordStuff {
-    font-size: 4em;
-    display: block;
+    font-size: 5em;
     text-align: center;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 #welcomeMessage {

@@ -7,6 +7,7 @@ var start;
 var combo = 1;
 var wordSequence = 0;
 var sus = 0;
+var lastFace = 0;
 var agents = [
     "soichiro yagami",
     "shuichi aizawa",
@@ -82,13 +83,74 @@ function setNewCrime() {
 
 function randomFace() {
     var n = Math.floor(Math.random() * 78)+1;
+    while (n === lastFace) {
+        n = Math.floor(Math.random() * 78)+1;
+    }
     if (n < 10) {
         var file = "Deathnote/portrait-files/tile00" + String(n)
     } else {
         var file = "Deathnote/portrait-files/tile0" + String(n)
     }
-    return file + ".png"
+    lastFace = n;
+    return file + ".png"    
+}
+
+function susGraph() {
+    var dps = []; // dataPoints
+    var chart = new CanvasJS.Chart("chartContainer", {
+        data: [{
+            type: "line",
+            dataPoints: dps,
+            lineColor: "red",
+            markerColor: "#FF0000",
+            markerSize: 1,
+        }],
+        axisY:{
+            maximum: 100,
+            minimum: 0,
+            gridThickness: 1, 
+            tickLength: 0,
+            lineThickness: 0
+        },
+        axisX: {
+            gridThickness: 0, 
+            tickLength: 0,
+            lineThickness: 1
+        },
+        interactivityEnabled: false,
+        backgroundColor: "#00000"
+    });
     
+    var xVal = 0;
+    var yVal = 100; 
+    var updateInterval = 1000;
+    var dataLength = 10; // number of dataPoints visible at any point
+    
+    var updateChart = function (count) {
+        count = count || 1;
+    
+        for (var j = 0; j < count; j++) {
+            yVal = sus + Math.round(5 + Math.random() *(-5-5));
+            if (yVal < 0){
+                yVal = 0
+            }
+            dps.push({
+                x: xVal,
+                y: yVal
+            });
+            xVal++;
+        }
+    
+        if (dps.length > dataLength) {
+            dps.shift();
+        }
+        chart.render();
+    };
+    var susText = document.getElementById("susText");
+    susText.innerHTML = "&nbsp" + sus + "%";
+    
+    updateChart(dataLength);
+    setInterval(function(){updateChart()}, updateInterval);
 }
 
 function typing(e) {
@@ -98,7 +160,8 @@ function typing(e) {
     var post = document.getElementById("postWord");
     var score_element = document.getElementById("score");
     var comboText = document.getElementById("combo");
-    var susText = document.getElementById("sus");
+    var suspicion = document.getElementById("suspicion")
+    var susText = document.getElementById("susText");
     var crime = document.getElementById("crime");
     
     if ((typed+key).toLowerCase() === word.slice(0, typed.length+1).toLowerCase()) {
@@ -197,7 +260,7 @@ function typing(e) {
         score_element.innerHTML = ": " + score;
     }
     comboText.style.width = ((combo-1) * 20) + "%";
-    susText.style.width = sus + "%";
+    susText.innerHTML = "&nbsp" + sus + "%";
 }
 
 
@@ -245,13 +308,15 @@ function gameStart(str) {
     wordSequence = 0;
 
     sus = 0;
-    var susPercent = document.getElementById("sus");
-    var susContainer = document.getElementById("susContainer");
+    // var susPercent = document.getElementById("sus");
+    // var susContainer = document.getElementById("susContainer");
     var susText = document.getElementById("susText");
-    susContainer.style.display = "block";
-    susPercent.style.display = "block";
-    susText.style.display = "block";
-    susPercent.style.width = sus + "%";
+    var suspicion = document.getElementById("suspicion");
+    // susContainer.style.display = "block";
+    // susPercent.style.display = "block";
+    susText.style.display = "inline-block";
+    susText.innerHTML = "&nbsp" + sus + "%";
+    suspicion.style.display = "inline-block";
 
     combo = 1;
     var comboPercent = document.getElementById("combo");
@@ -300,7 +365,9 @@ function gameStart(str) {
     comboText.style.width = ((combo-1)*20) + "%";
 
     x.style.display = "none";
-    y.style.display = "block";    
+    y.style.display = "block";
+
+    susGraph();
 
     document.addEventListener("keydown", typing, false);
 
