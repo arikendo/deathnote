@@ -36,10 +36,11 @@
             <h2 id="continue" onClick="showGame()">Continue</h2>
         </div>
         <div id="gameElements">
-            <br>
             <div id="preGame">
-                <img id="lightYagamiPic" src="Deathnote/lightYagamiChar.png" onClick="gameStart('Light')">
-                <img id="misaAmanePic" src="Deathnote/misaAmaneChar.png" onClick="gameStart('Misa')">
+                <!-- <img id="lightYagamiPic" src="Deathnote/lightYagamiChar.png" onClick="gameStart('Light')">
+                <img id="misaAmanePic" src="Deathnote/misaAmaneChar.png" onClick="gameStart('Misa')"> -->
+                <img id="lightYagamiSelect" src="Deathnote/light_select.png" onClick="gameStart('Light')" onmouseover="hover_light(this)" onmouseout="unhover_light(this)">
+                <img id="misaAmaneSelect" src="Deathnote/misa_select.png" onClick="gameStart('Misa')" onmouseover="hover_misa(this)" onmouseout="unhover_misa(this)">
             </div>
             <div id="inGame">
                 <span id="scoreText">Followers</span><span id="score"></span>
@@ -48,27 +49,20 @@
                     <span id="suspicion">Suspicion:</span><span id="susText"></span>
                     <div id="chartContainer"></div>
                 </div>
-               
-                
+                <span id="kills">Kills:</span><span id="killText"></span>
                 <div id="wordStuff">
                     <span id="preWord"></span><span id="postWord"></span>
                     <p id="nextWord"></p>
                     <canvas id="face" width="32" height="32"></canvas>
                 </div>  
-                
-                
+
                 <p id="crime"></p>
-                <br>
+
                 <p id="comboText">Combo Meter</p>
                 <div id="comboContainer" class="barcontainer">
                     <div id="combo" class="bar" style="width:70%">
                     </div>
                 </div>
-                <!-- <p id="susText">Sus Meter</p>
-                <div id="susContainer" class="barcontainer">
-                    <div id="sus" class="bar" style="width:70%">
-                    </div>
-                </div> -->
                 
             </div>
             <div id="postGame">

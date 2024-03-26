@@ -13,7 +13,7 @@ html {
 }
 
 #nextWord {
-    font-size: 1em;
+    font-size: 0.75em;
     text-align: center;
     display: block;
     align-items: center;
@@ -55,32 +55,34 @@ html {
     width: 20%;
 }
 
-#lightYagamiPic {
-    width: 50%;
-    float: inline-block;
-    opacity: 0.5;
-    filter:alpha(opacity=50); 
+#preGame {
+    display: block;   
+    width: 100%;
+    text-align:center
 }
 
-#lightYagamiPic:hover {
-    opacity: 1.0;
-    filter:alpha(opacity=100); 
+#lightYagamiSelect {
+    width: 52%;
+    image-rendering: pixelated;
 }
 
-#misaAmanePic {
-    width: 50%;
-    float: inline-block;
-    opacity: 0.5;
-    filter:alpha(opacity=50); 
+#lightYagamiSelect:hover, #misaAmaneSelect:hover {
+    color: #111; 
+    background: red; 
+    box-shadow: 0 0 100px red;
 }
 
-#misaAmanePic:hover {
-    opacity: 1.0;
-    filter:alpha(opacity=100); 
+#misaAmaneSelect {
+    width: 52%;
+    image-rendering: pixelated;
 }
 
 #seconds {
     padding-bottom: 0px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 4em;
 }
 
 h1, h2, p, span  {
@@ -121,8 +123,11 @@ p {
 }
 
 #scoreText, #score {
-    font-size: 3em;
+    font-size: 5em;
     display: none;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 #suspicion, #susText {
@@ -137,6 +142,18 @@ p {
     padding-left: 5em;
 }
 
+#kills, #killText {
+    font-size: 3em;
+    display: none;
+    position: fixed;
+    right: 0;
+    padding-right: 2em;
+}
+
+#kills { 
+    padding-right: 3em;
+}
+
 #legend27 {
     font-size: 8em;
 }
@@ -146,7 +163,7 @@ p {
 }
 
 #wordStuff {
-    font-size: 5em;
+    font-size: 6em;
     text-align: center;
     display: inline-block;
     align-items: center;
@@ -162,12 +179,8 @@ p {
     display: none;
 }
 
-#preGame {
-    display: flex;
-    overflow: auto;
-}
-
 #inGame {
+    display: none;
     text-align: center;
 }
 

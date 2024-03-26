@@ -31,6 +31,23 @@ var agents = [
 ] // the investigation team + FBI agents
 var l_dead;
 var threshold;
+var kills = 0;
+
+function hover_light(element) {
+    element.setAttribute('src', 'Deathnote/light_select_hover.png');
+}
+
+function unhover_light(element) {
+    element.setAttribute('src', 'Deathnote/light_select.png');
+}
+
+function hover_misa(element) {
+    element.setAttribute('src', 'Deathnote/misa_select_hover.png');
+}
+
+function unhover_misa(element) {
+    element.setAttribute('src', 'Deathnote/misa_select.png');
+}
 
 const inputHandler = function(e) {
     result.innerText = e.target.value;
@@ -160,9 +177,8 @@ function typing(e) {
     var post = document.getElementById("postWord");
     var score_element = document.getElementById("score");
     var comboText = document.getElementById("combo");
-    var suspicion = document.getElementById("suspicion")
     var susText = document.getElementById("susText");
-    var crime = document.getElementById("crime");
+    var killText = document.getElementById("killText");
     
     if ((typed+key).toLowerCase() === word.slice(0, typed.length+1).toLowerCase()) {
         typed += key;
@@ -205,6 +221,7 @@ function typing(e) {
     }
 
     if (typed.length === word.length) {
+        kills += 1;
         if (agents.includes(word) && !l_dead) {
             sus += 20;
 
@@ -261,6 +278,7 @@ function typing(e) {
     }
     comboText.style.width = ((combo-1) * 20) + "%";
     susText.innerHTML = "&nbsp" + sus + "%";
+    killText.innerHTML = "&nbsp" + kills;
 }
 
 
@@ -306,17 +324,19 @@ function gameStart(str) {
     score_element.innerHTML = ": " + score;
     score = 0;
     wordSequence = 0;
+    kills = 0;
 
     sus = 0;
-    // var susPercent = document.getElementById("sus");
-    // var susContainer = document.getElementById("susContainer");
     var susText = document.getElementById("susText");
     var suspicion = document.getElementById("suspicion");
-    // susContainer.style.display = "block";
-    // susPercent.style.display = "block";
+    var preKill = document.getElementById("kills");
+    var susText = document.getElementById("susText");
     susText.style.display = "inline-block";
     susText.innerHTML = "&nbsp" + sus + "%";
     suspicion.style.display = "inline-block";
+    preKill.style.display = "inline-block"
+    killText.style.display = "inline-block"
+    killText.innerHTML = "&nbsp" + kills;
 
     combo = 1;
     var comboPercent = document.getElementById("combo");
@@ -339,7 +359,6 @@ function gameStart(str) {
     word = random();
     newFace();
     setNewCrime();
-    
 
     typed = "";
     var post = document.getElementById("postWord");
