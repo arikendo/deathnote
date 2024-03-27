@@ -39,8 +39,12 @@
             <div id="preGame">
                 <!-- <img id="lightYagamiPic" src="Deathnote/lightYagamiChar.png" onClick="gameStart('Light')">
                 <img id="misaAmanePic" src="Deathnote/misaAmaneChar.png" onClick="gameStart('Misa')"> -->
-                <img id="lightYagamiSelect" src="Deathnote/light_select.png" onClick="gameStart('Light')" onmouseover="hover_light(this)" onmouseout="unhover_light(this)">
-                <img id="misaAmaneSelect" src="Deathnote/misa_select.png" onClick="gameStart('Misa')" onmouseover="hover_misa(this)" onmouseout="unhover_misa(this)">
+                <div id="scores">
+                    <span>Followers: </span><span id="lastScore"></span>
+                    <span>High Score:</span><span id="highScore"></span>
+                </div>
+                <br>
+                <img id="lightYagamiSelect" src="Deathnote/light_select.png" onClick="gameStart('Light')" onmouseover="hover_light(this)" onmouseout="unhover_light(this)"><img id="misaAmaneSelect" src="Deathnote/misa_select.png" onClick="gameStart('Misa')" onmouseover="hover_misa(this)" onmouseout="unhover_misa(this)">
             </div>
             <div id="inGame">
                 <span id="scoreText">Followers</span><span id="score"></span>

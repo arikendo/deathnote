@@ -56,13 +56,11 @@ html {
 }
 
 #preGame {
-    display: block;   
-    width: 100%;
-    text-align:center
+    display: block;
 }
 
 #lightYagamiSelect {
-    width: 52%;
+    width: 50%;
     image-rendering: pixelated;
 }
 
@@ -73,8 +71,13 @@ html {
 }
 
 #misaAmaneSelect {
-    width: 52%;
+    width: 50%;
     image-rendering: pixelated;
+}
+
+#scores {
+    font-size: 6em;
+    text-align: center;
 }
 
 #seconds {

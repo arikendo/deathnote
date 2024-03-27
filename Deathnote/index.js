@@ -32,6 +32,8 @@ var agents = [
 var l_dead;
 var threshold;
 var kills = 0;
+var high_score = 0;
+var last_score = 0;
 
 function hover_light(element) {
     element.setAttribute('src', 'Deathnote/light_select_hover.png');
@@ -64,6 +66,21 @@ function showGame() {
     x.style.display = "none";
     var y = document.getElementById("gameElements");
     y.style.display = "block";
+
+    var lastScore = document.getElementById("lastScore");
+    var highScore = document.getElementById("highScore");
+
+    last_score = score;
+    if (last_score > high_score) {
+        high_score === last_score;
+        console.log("High score " + high_score);
+        document.cookie = "high_score=" + high_score + ";";
+    }
+
+    let high = getCookie("high_score");
+
+    lastScore.innerHTML = last_score;
+    highScore.innerHTML = high;
 }
 
 function stopShake() {
@@ -205,7 +222,7 @@ function typing(e) {
             if (character === "Light") {
                 sus += 20;
             } else {
-                sus += 34
+                sus += 20;
             }
     
             if (sus >= 100) {
@@ -223,7 +240,7 @@ function typing(e) {
     if (typed.length === word.length) {
         kills += 1;
         if (agents.includes(word) && !l_dead) {
-            sus += 20;
+            sus += 25;
 
             if (sus >= 100) {
                 endGame();
@@ -251,7 +268,7 @@ function typing(e) {
             document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
         }
         if (!l_dead) {
-            if (sus >= 5) {
+            if (sus >= 1) {
                 sus -= 5;
             } else {
                 sus = 0;
@@ -281,15 +298,43 @@ function typing(e) {
     killText.innerHTML = "&nbsp" + kills;
 }
 
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 
 function endGame() {
     var x = document.getElementById("inGame");
-    var y = document.getElementById("postGame");
-    var scoreText = document.getElementById("postScore");
+    var y = document.getElementById("preGame");
+    var lastScore = document.getElementById("lastScore");
+    var highScore = document.getElementById("highScore");
+
+    last_score = score;
+    if (last_score > high_score) {
+        high_score = last_score;
+        console.log("High score " + high_score);
+        document.cookie = "high_score=" + high_score + ";";
+    }
+
+    let high = getCookie("high_score");
+
+    lastScore.innerHTML = last_score;
+    highScore.innerHTML = high;
 
     x.style.display = "none";
     y.style.display = "block";
-    scoreText.innerHTML = ": " + score;
 }
 
 function sound() {
@@ -317,16 +362,19 @@ function startTime() {
 }
 
 function gameStart(str) {
+    score = 0;
+    wordSequence = 0;
+    kills = 0;
+    sus = 0;
+    combo = 1;
+    typed = "";
+
     var score_element = document.getElementById("score");
     var score_text = document.getElementById("scoreText");
     score_element.style.display = "inline-block";
     score_text.style.display = "inline-block"
     score_element.innerHTML = ": " + score;
-    score = 0;
-    wordSequence = 0;
-    kills = 0;
-
-    sus = 0;
+    
     var susText = document.getElementById("susText");
     var suspicion = document.getElementById("suspicion");
     var preKill = document.getElementById("kills");
@@ -338,7 +386,7 @@ function gameStart(str) {
     killText.style.display = "inline-block"
     killText.innerHTML = "&nbsp" + kills;
 
-    combo = 1;
+    
     var comboPercent = document.getElementById("combo");
     var comboContainer = document.getElementById("comboContainer");
     var comboText = document.getElementById("comboText");
@@ -360,7 +408,6 @@ function gameStart(str) {
     newFace();
     setNewCrime();
 
-    typed = "";
     var post = document.getElementById("postWord");
     var pre = document.getElementById("preWord");
     pre.innerHTML = "";
@@ -392,14 +439,6 @@ function gameStart(str) {
 
     start = Date.now();
     startTime();
-}
-
-function gameEnd() {
-    var y = document.getElementById("inGame");
-    var z = document.getElementById("postGame");
-
-    y.style.display = "none"
-    z.style.display = "block"
 }
 
 let crimes = [
@@ -546,5 +585,35 @@ let names = [
     "Lu Wei",
     "Huo Xinyue",
     "Liao Cui",
-    "Gao Lian"
+    "Gao Lian",
+    "Donald Trump",
+    "Joe Biden",
+    "Elon Musk",
+    "David Berkowitz",
+    "Ted Bundy",
+    "Jeffrey Dahmer",
+    "John Gacy",
+    "Ed Gein",
+    "Herman Mudgett",
+    "Marc Dutroux",
+    "Luis Garavito",
+    "Harold Shipman",
+    "William Burke",
+    "Javed Iqbal",
+    "Tony Ables",
+    "Henry Lucas",
+    "Samuel Little",
+    "Blake Marshall",
+    "Sean Wallace",
+    "Anthony Barnes",
+    "Roberto Buckner",
+    "Emilia Cunningham",
+    "Olivia Spencer",
+    "Blake Kelly",
+    "Amy West",
+    "Lizbeth Cooper",
+    "Michael Shaffer",
+    "Patrick Maloney",
+    "Everett Joseph",
+    "Hubert Brock"
 ]
