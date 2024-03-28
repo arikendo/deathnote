@@ -59,6 +59,15 @@ html {
     display: block;
 }
 
+#comboImage {
+    width: 450px;
+    height: 300px;
+    image-rendering: pixelated;
+    position: fixed;
+    right: 0;
+    margin-top: 5em;
+}
+
 #lightYagamiSelect {
     width: 50%;
     image-rendering: pixelated;
@@ -101,6 +110,10 @@ h1, h2, p, span  {
     font-weight: 500;
     text-shadow: 0rem 0rem 0.25rem #FFFFFF;
     text-align: center;
+}
+
+#crime {
+    font-size: 5em;
 }
 
 .canvasjs-chart-credit {
@@ -146,7 +159,7 @@ p {
 }
 
 #kills, #killText {
-    font-size: 3em;
+    font-size: 6em;
     display: none;
     position: fixed;
     right: 0;
@@ -166,7 +179,7 @@ p {
 }
 
 #wordStuff {
-    font-size: 6em;
+    font-size: 8em;
     text-align: center;
     display: inline-block;
     align-items: center;

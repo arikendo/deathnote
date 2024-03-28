@@ -35,6 +35,66 @@ var kills = 0;
 var high_score = 0;
 var last_score = 0;
 
+// THIS IS ALMOST DONE
+var audioFiles = [
+    "Deathnote/sfx/combo2.mp3",
+    "Deathnote/sfx/combo3.mp3",
+    "Deathnote/sfx/combo4.mp3",
+    "Deathnote/sfx/combo5.mp3",
+    "Deathnote/sfx/combo6.mp3"
+]
+
+var audioFilesMistakes = [
+    "Deathnote/sfx/mistake1.mp3",
+    "Deathnote/sfx/mistake2.mp3",
+    "Deathnote/sfx/mistake3.mp3",
+    "Deathnote/sfx/mistake4.mp3",
+]
+
+var comboMusicPlayer = new Audio();
+for (var i in audioFiles) {
+    preloadAudio(comboMusicPlayer, audioFiles[i]);
+}
+
+comboMusicPlayer.volume = 0.6;
+
+var mistakeMusicPlayer = new Audio();
+for (var i in audioFilesMistakes) {
+    preloadAudio(mistakeMusicPlayer, audioFilesMistakes[i]);
+}
+
+function preloadAudio(player, url) {
+    // once this file loads, it will call loadedAudio()
+    // the file will be kept by the browser as cache
+    player.addEventListener('canplaythrough', loadedAudio, false);
+    player.src = url;
+}
+
+var loaded = 0;
+function loadedAudio() {
+    // this will be called every time an audio file is loaded
+    // we keep track of the loaded files vs the requested files
+    loaded++;
+    if (loaded == audioFiles.length){
+    	// all have loaded
+    	console.log("loaded audio")
+    }
+}
+
+var boomMusicPlayer = new Audio();
+var bgMusicPlayer = new Audio();
+preloadAudio(boomMusicPlayer, "Deathnote/sfx/kill.wav")
+preloadAudio(bgMusicPlayer, "Deathnote/sfx/bg-music.m4a")
+bgMusicPlayer.volume = 0.15;
+
+// combo2.preload = 'auto';
+// combo3.preload = 'auto';
+// combo4.preload = 'auto';
+// combo5.preload = 'auto';
+// combo6.preload = 'auto';
+// killSound.preload = 'auto';
+// bgMusic.preload = 'auto';
+
 function hover_light(element) {
     element.setAttribute('src', 'Deathnote/light_select_hover.png');
 }
@@ -107,9 +167,9 @@ function newCrime() {
 function setNewCrime() {
     var crime = document.getElementById("crime");
     if (word === "l lawliet") {
-        crime.innerHTML = "crime: challenging God"
+        crime.innerHTML = "crime: L"
     } else if (agents.includes(word)) {
-        crime.innerHTML = "crime: stopping justice"
+        crime.innerHTML = "crime: Investigating Kira"
     } else {
         crime.innerHTML = "crime: " + newCrime();
     }
@@ -196,6 +256,7 @@ function typing(e) {
     var comboText = document.getElementById("combo");
     var susText = document.getElementById("susText");
     var killText = document.getElementById("killText");
+    var comboImage = document.getElementById("comboImage");
     
     if ((typed+key).toLowerCase() === word.slice(0, typed.length+1).toLowerCase()) {
         typed += key;
@@ -230,6 +291,10 @@ function typing(e) {
             }
         }        
 
+        comboImage.src = "Deathnote/combo1_light.png"
+        if (combo > 1) {
+            randomMistakeSound();
+        } 
         combo = 1;
         var wordStuff = document.getElementById("wordStuff");
         wordStuff.classList.add('horizTranslate');
@@ -257,12 +322,19 @@ function typing(e) {
             wordSequence = 0;
             combo += 1;
             if (combo >= 6) {
+                comboImage.src = "Deathnote/combo5_light.png"
                 combo = 6
+                boomMusicPlayer.play();
+            } else {
+                console.log("Deathnote/combo" + combo + "_light.png")
+                comboImage.src = "Deathnote/combo" + combo + "_light.png"
+                boomMusicPlayer.play();
+                sound(combo);
             }            
-            sound();
+            
             rounded = Math.round(score/100)*100
             // threshold += 10 - Math.round((Math.round(sus/10) + (rounded/1000)));
-            threshold += 10 - (Math.round(sus/10));
+            threshold += combo * 2;
             var delta = Date.now() - start; // milliseconds elapsed since start
             currentSecs = Math.floor(delta / 1000); // in seconds
             document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
@@ -290,7 +362,7 @@ function typing(e) {
         }        
         pre.innerHTML = "";
         post.innerHTML = word;
-        score += 100 * combo;
+        score += 1000 * combo;
         score_element.innerHTML = ": " + score;
     }
     comboText.style.width = ((combo-1) * 20) + "%";
@@ -316,6 +388,9 @@ function getCookie(cname) {
 
 
 function endGame() {
+    bgMusicPlayer.pause();
+    bgMusicPlayer.currentTime = 0;
+
     var x = document.getElementById("inGame");
     var y = document.getElementById("preGame");
     var lastScore = document.getElementById("lastScore");
@@ -337,9 +412,17 @@ function endGame() {
     y.style.display = "block";
 }
 
-function sound() {
-    var snd = new Audio('Deathnote/kill.wav')//wav is also supported
-    snd.play()//plays the sound
+function sound(index) {
+    index -= 2;
+    comboMusicPlayer.src = audioFiles[index];
+    comboMusicPlayer.play();
+}
+
+function randomMistakeSound() {
+    index =  Math.floor(Math.random() * (4 - 1 + 1) + 1) - 1;
+    console.log(index);
+    mistakeMusicPlayer.src = audioFilesMistakes[index];
+    mistakeMusicPlayer.play();
 }
 
 function startTime() {
@@ -395,6 +478,10 @@ function gameStart(str) {
     comboText.style.display = "block";
     comboPercent.style.width = combo + "%";
 
+    var comboImage = document.getElementById("comboImage");
+
+    comboImage.src = "Deathnote/combo1_light.png"
+
     var postGame = document.getElementById("postGame");
     postGame.style.display = "none";
 
@@ -407,6 +494,8 @@ function gameStart(str) {
     word = random();
     newFace();
     setNewCrime();
+
+    bgMusicPlayer.play();
 
     var post = document.getElementById("postWord");
     var pre = document.getElementById("preWord");
@@ -615,5 +704,64 @@ let names = [
     "Michael Shaffer",
     "Patrick Maloney",
     "Everett Joseph",
-    "Hubert Brock"
+    "Hubert Brock",
+    "Beatrice Thomson",
+    "Max Dale",
+    "Saira Miller",
+    "Rebecca Gay",
+    "Dillan Vaughn",
+    "Peter Scott",
+    "Eddie Sears",
+    "Rhea Mayo",
+    "Malaika Stephens",
+    "Edwin Gilbert",
+    "Maxine Wade",
+    "Rosalie Francis",
+    "June Carpenter",
+    "Irving Fuller",
+    "Carlos Pierce",
+    "Gail Garza",
+    "Theodore Sullivan",
+    "Jody Buchanan",
+    "Delores Hogan",
+    "Elizabeth Diaz",
+    "Terry Rodriguez",
+    "Jane Johnson",
+    "Jean Miller",
+    "Chris Edwards",
+    "Jimmy King",
+    "Barbara Peterson",
+    "Louis Mitchell",
+    "Steven Simmons",
+    "Edward Allen",
+    "Mark Price",
+    "Brandon Moore",
+    "Clarence Wright",
+    "Ann Hall",
+    "Daniel Wood",
+    "Katherine Watson",
+    "Richard Baker",
+    "Mary James",
+    "Bobby Sanchez",
+    "Nicole Ramirez",
+    "Ashley Jenkins",
+    "Mildred Torres",
+    "Pamela Washington",
+    "Sarah Adams",
+    "Jason Bell",
+    "Steve Williams",
+    "Sandra Bryant",
+    "Stephen Roberts",
+    "Lisa Jackson",
+    "Lillian Sanchez",
+    "Keith Gonzalez",
+    "Betty Jenkins",
+    "Louise Martin",
+    "Nicholas Powell",
+    "Carlos Sanchez",
+    "Randy Cox",
+    "Chris Young",
+    "Gregory Bennett",
+    "Arthur Diaz",
+    "Joe Hall"
 ]
