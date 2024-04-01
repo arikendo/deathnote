@@ -99,14 +99,6 @@ var bgMusicPlayer = new Audio();
 preloadAudio(bgMusicPlayer, "Deathnote/sfx/bg-music.m4a")
 bgMusicPlayer.volume = 0.15;
 
-// combo2.preload = 'auto';
-// combo3.preload = 'auto';
-// combo4.preload = 'auto';
-// combo5.preload = 'auto';
-// combo6.preload = 'auto';
-// killSound.preload = 'auto';
-// bgMusic.preload = 'auto';
-
 function hover_light(element) {
     element.setAttribute('src', 'Deathnote/light_select_hover.png');
 }
@@ -129,10 +121,12 @@ const inputHandler = function(e) {
 
 function random() {
     if (randomIndex.length == 0) {
-        randomIndex = Array.from({length: names.length}, (_, i) => i + 1);
+        for (var i = 0; i < names.length; i++) {
+            randomIndex[i] = i;
+        }
     }
     n = randomIndex[Math.floor(Math.random()*randomIndex.length)]
-    randomIndex.splice(n-1, 1);
+    randomIndex.splice(n, 1);
     return names[n].toLowerCase()
 }
 
@@ -148,7 +142,6 @@ function showGame() {
     last_score = score;
     if (last_score > high_score) {
         high_score === last_score;
-        console.log("High score " + high_score);
         document.cookie = "high_score=" + high_score + ";";
     }
 
@@ -349,7 +342,6 @@ function typing(e) {
                 combo = 6;
                 sound(combo);
             } else {
-                console.log("Deathnote/combo" + combo + "_light.png")
                 comboImage.src = "Deathnote/combo" + combo + "_light.png"
                 sound(combo);
             }            
@@ -429,7 +421,6 @@ function endGame() {
     last_score = score;
     if (last_score > high_score) {
         high_score = last_score;
-        console.log("High score " + high_score);
         document.cookie = "high_score=" + high_score + ";";
     }
 
@@ -450,7 +441,6 @@ function sound(index) {
 
 function randomMistakeSound() {
     index =  Math.floor(Math.random() * (4 - 1 + 1) + 1) - 1;
-    console.log(index);
     mistakeMusicPlayer.src = audioFilesMistakes[index];
     mistakeMusicPlayer.play();
 }
