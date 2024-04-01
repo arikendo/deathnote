@@ -33,7 +33,7 @@ html {
     display: none;
     position: relative;
     float: center;
-    filter: invert(0.5);
+    filter: invert(0.5) brightness(1.75);
 } 
 
 @keyframes horizontal-shaking {

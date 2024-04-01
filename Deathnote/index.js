@@ -34,6 +34,7 @@ var threshold;
 var kills = 0;
 var high_score = 0;
 var last_score = 0;
+var randomIndex = [];
 
 // THIS IS ALMOST DONE
 var audioFiles = [
@@ -51,6 +52,11 @@ var audioFilesMistakes = [
     "Deathnote/sfx/mistake4.mp3",
 ]
 
+var audioFilesBoom = [
+    "Deathnote/sfx/Heartbeat.mp3",
+    "Deathnote/sfx/kill.wav"
+]
+
 var comboMusicPlayer = new Audio();
 for (var i in audioFiles) {
     preloadAudio(comboMusicPlayer, audioFiles[i]);
@@ -62,6 +68,13 @@ var mistakeMusicPlayer = new Audio();
 for (var i in audioFilesMistakes) {
     preloadAudio(mistakeMusicPlayer, audioFilesMistakes[i]);
 }
+
+var boomMusicPlayer = new Audio();
+
+for (var i in audioFilesBoom) {
+    preloadAudio(boomMusicPlayer, audioFilesBoom[i]);
+}
+
 
 function preloadAudio(player, url) {
     // once this file loads, it will call loadedAudio()
@@ -81,9 +94,8 @@ function loadedAudio() {
     }
 }
 
-var boomMusicPlayer = new Audio();
+
 var bgMusicPlayer = new Audio();
-preloadAudio(boomMusicPlayer, "Deathnote/sfx/kill.wav")
 preloadAudio(bgMusicPlayer, "Deathnote/sfx/bg-music.m4a")
 bgMusicPlayer.volume = 0.15;
 
@@ -116,8 +128,11 @@ const inputHandler = function(e) {
 }
 
 function random() {
-    max = names.length;
-    var n = Math.floor(Math.random() * max);
+    if (randomIndex.length == 0) {
+        randomIndex = Array.from({length: names.length}, (_, i) => i + 1);
+    }
+    n = randomIndex[Math.floor(Math.random()*randomIndex.length)]
+    randomIndex.splice(n-1, 1);
     return names[n].toLowerCase()
 }
 
@@ -263,6 +278,11 @@ function typing(e) {
         pre.innerHTML = typed.toLowerCase();
         post.innerHTML = word.slice(typed.length, word.length+1);
     } else if(e.which === 13) {
+        if (!agents.includes(word)) {
+            if (score > 0) {
+                score -= 1000;
+            } 
+        }
         typed = "";
         if (character === "Misa") {
             var nextWord_element = document.getElementById("nextWord");
@@ -321,14 +341,16 @@ function typing(e) {
         if (wordSequence === 5) {
             wordSequence = 0;
             combo += 1;
+            boomMusicPlayer.volume = 1;
+            boomMusicPlayer.src = audioFilesBoom[1];
+            boomMusicPlayer.play();
             if (combo >= 6) {
                 comboImage.src = "Deathnote/combo5_light.png"
-                combo = 6
-                boomMusicPlayer.play();
+                combo = 6;
+                sound(combo);
             } else {
                 console.log("Deathnote/combo" + combo + "_light.png")
                 comboImage.src = "Deathnote/combo" + combo + "_light.png"
-                boomMusicPlayer.play();
                 sound(combo);
             }            
             
@@ -338,7 +360,12 @@ function typing(e) {
             var delta = Date.now() - start; // milliseconds elapsed since start
             currentSecs = Math.floor(delta / 1000); // in seconds
             document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
+        } else {
+            boomMusicPlayer.volume = 0.5;
+            boomMusicPlayer.src = audioFilesBoom[0];
+            boomMusicPlayer.play();
         }
+
         if (!l_dead) {
             if (sus >= 1) {
                 sus -= 5;
@@ -348,23 +375,23 @@ function typing(e) {
         }        
 
         typed = "";
+        newFace();
+        
         if (character === "Misa") {
             var nextWord_element = document.getElementById("nextWord");
             word = nextWord;
             nextWord = random();
             nextWord_element.innerHTML = nextWord;
-            newFace();
             setNewCrime();
         } else {
             word = random();
-            newFace();
             setNewCrime();
         }        
         pre.innerHTML = "";
         post.innerHTML = word;
         score += 1000 * combo;
-        score_element.innerHTML = ": " + score;
     }
+    score_element.innerHTML = ": " + score;
     comboText.style.width = ((combo-1) * 20) + "%";
     susText.innerHTML = "&nbsp" + sus + "%";
     killText.innerHTML = "&nbsp" + kills;
@@ -395,6 +422,9 @@ function endGame() {
     var y = document.getElementById("preGame");
     var lastScore = document.getElementById("lastScore");
     var highScore = document.getElementById("highScore");
+
+    var nextWord_element = document.getElementById("nextWord");
+    nextWord_element.innerHTML = '';
 
     last_score = score;
     if (last_score > high_score) {
@@ -445,6 +475,7 @@ function startTime() {
 }
 
 function gameStart(str) {
+    randomIndex = [];
     score = 0;
     wordSequence = 0;
     kills = 0;
@@ -505,8 +536,8 @@ function gameStart(str) {
     l_dead = false;
 
     character = str;
+    var nextWord_element = document.getElementById("nextWord");
     if (character === "Misa") {
-        var nextWord_element = document.getElementById("nextWord");
         nextWord = random();
         nextWord_element.innerHTML = nextWord;
         threshold = 45;
