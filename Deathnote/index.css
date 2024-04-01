@@ -198,6 +198,11 @@ p {
 #inGame {
     display: none;
     text-align: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1)), url('particle-fire-header-ani.gif');
+    background-blend-mode: darken;
+    background-size: cover;
+    height: 100vh;
+    padding:0;
 }
 
 #postWord {

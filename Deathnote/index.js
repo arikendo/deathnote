@@ -265,6 +265,7 @@ function typing(e) {
     var susText = document.getElementById("susText");
     var killText = document.getElementById("killText");
     var comboImage = document.getElementById("comboImage");
+    var inGame = document.getElementById("inGame");
     
     if ((typed+key).toLowerCase() === word.slice(0, typed.length+1).toLowerCase()) {
         typed += key;
@@ -341,9 +342,12 @@ function typing(e) {
                 comboImage.src = "Deathnote/combo5_light.png"
                 combo = 6;
                 sound(combo);
+                inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('Deathnote/particle-fire-header-ani.gif')";
             } else {
                 comboImage.src = "Deathnote/combo" + combo + "_light.png"
                 sound(combo);
+                var opac = 1 - (combo/100);
+                inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, " + opac + "), rgba(0, 0, 0, " + opac + ")), url('Deathnote/particle-fire-header-ani.gif')"; 
             }            
             
             rounded = Math.round(score/100)*100
