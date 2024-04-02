@@ -125,8 +125,9 @@ function random() {
             randomIndex[i] = i;
         }
     }
+
     n = randomIndex[Math.floor(Math.random()*randomIndex.length)]
-    randomIndex.splice(n, 1);
+    randomIndex.splice(n-1, 1);
     return names[n].toLowerCase()
 }
 
@@ -352,10 +353,11 @@ function typing(e) {
             
             rounded = Math.round(score/100)*100
             // threshold += 10 - Math.round((Math.round(sus/10) + (rounded/1000)));
-            threshold += combo * 2;
+            threshold += Math.ceil(combo * 1.5);
             var delta = Date.now() - start; // milliseconds elapsed since start
             currentSecs = Math.floor(delta / 1000); // in seconds
             document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
+            console.log(Math.ceil(combo * 1.5));
         } else {
             boomMusicPlayer.volume = 0.5;
             boomMusicPlayer.src = audioFilesBoom[0];
@@ -452,19 +454,12 @@ function randomMistakeSound() {
 function startTime() {
     var delta = Date.now() - start; // milliseconds elapsed since start
     currentSecs = Math.floor(delta / 1000); // in seconds
-    
-    if (character === "Light") {
-        document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
-        if (currentSecs >= threshold) {
-            endGame(); 
-        }
-    } else if(character === "Misa") {
-        document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
-        if(currentSecs >= threshold) {
-            endGame();
-        }
+
+    document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
+    if (currentSecs >= threshold) {
+        endGame(); 
     }
-    
+
     setTimeout(startTime, 1000);
 }
 
