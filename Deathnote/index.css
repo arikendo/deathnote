@@ -10,6 +10,37 @@ html {
 #body {
     background: #000000;
     color: white;
+    overflow: hidden;
+}
+
+#applesText, #applesApples {
+    font-size: 5em;
+}
+
+#ryukTitle {
+    font-size: 6em;
+}
+
+#itemShop {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    row-gap: 50px;
+}
+
+.L_item {
+    width: 120px;
+    image-rendering: pixelated;
+}
+
+.item {
+    width: 150px;
+    float: center;
+    image-rendering: pixelated;
+}
+
+.itemDesc {
+    font-size: 3em;
+    float: center;
 }
 
 #nextWord {
@@ -57,15 +88,6 @@ html {
 
 #preGame {
     display: block;
-}
-
-#comboImage {
-    width: 450px;
-    height: 300px;
-    image-rendering: pixelated;
-    position: fixed;
-    right: 0;
-    margin-top: 5em;
 }
 
 #lightYagamiSelect {
@@ -158,6 +180,18 @@ p {
     padding-left: 5em;
 }
 
+#comboRightSide {
+    position: fixed;
+    right: 0;
+}
+
+#comboImage {
+    width: 450px;
+    height: 300px;
+    image-rendering: pixelated;
+    margin-top: 5em;
+}
+
 #kills, #killText {
     font-size: 6em;
     display: none;
@@ -195,10 +229,22 @@ p {
     display: none;
 }
 
+#ryukShop {
+    display: none;
+    padding-bottom: -20px;
+}
+
+#ryukHappy {
+    left: 50%;
+    bottom: 0;
+    height: 400px;
+    position: absolute;
+}
+
 #inGame {
     display: none;
     text-align: center;
-    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1)), url('particle-fire-header-ani.gif');
+    background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1)), url('images/particle-fire-header-ani.gif');
     background-blend-mode: darken;
     background-size: cover;
     height: 100vh;

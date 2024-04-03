@@ -35,6 +35,9 @@ var kills = 0;
 var high_score = 0;
 var last_score = 0;
 var randomIndex = [];
+var ryukOpen = false;
+var apples = 0;
+var apple_modifier = 1;
 
 // THIS IS ALMOST DONE
 var audioFiles = [
@@ -76,6 +79,43 @@ for (var i in audioFilesBoom) {
 }
 
 
+var bgMusicPlayer = new Audio();
+preloadAudio(bgMusicPlayer, "Deathnote/sfx/bg-music.m4a");
+bgMusicPlayer.volume = 0.15;
+
+var ryukMusicPlayer = new Audio()
+preloadAudio(ryukMusicPlayer, "Deathnote/sfx/RyukHipShop.m4a");
+ryukMusicPlayer.volume = 0.15;
+
+function kill_L() {
+    if (apples > 49) {
+        l_dead = true;
+        apples -= 50;
+        var applesText = document.getElementById("applesText");
+        applesText.innerHTML = "&nbsp" + apples;
+    }
+}
+
+function moreApples() {
+    if (apples > 0) {
+        apple_modifier += 1;
+        apples -= 1;
+        var applesText = document.getElementById("applesText");
+        applesText.innerHTML = "&nbsp" + apples;
+    }    
+}
+
+function potatoChip() {
+    if (apples > 0) {
+        sus = 0;
+        var susText = document.getElementById("susText");
+        susText.innerHTML = "&nbsp" + sus + "%";
+        apples -= 1;
+        var applesText = document.getElementById("applesText");
+        applesText.innerHTML = "&nbsp" + apples;
+    }    
+}
+
 function preloadAudio(player, url) {
     // once this file loads, it will call loadedAudio()
     // the file will be kept by the browser as cache
@@ -94,25 +134,20 @@ function loadedAudio() {
     }
 }
 
-
-var bgMusicPlayer = new Audio();
-preloadAudio(bgMusicPlayer, "Deathnote/sfx/bg-music.m4a")
-bgMusicPlayer.volume = 0.15;
-
 function hover_light(element) {
-    element.setAttribute('src', 'Deathnote/light_select_hover.png');
+    element.setAttribute('src', 'Deathnote/images/light_select_hover.png');
 }
 
 function unhover_light(element) {
-    element.setAttribute('src', 'Deathnote/light_select.png');
+    element.setAttribute('src', 'Deathnote/images/light_select.png');
 }
 
 function hover_misa(element) {
-    element.setAttribute('src', 'Deathnote/misa_select_hover.png');
+    element.setAttribute('src', 'Deathnote/images/misa_select_hover.png');
 }
 
 function unhover_misa(element) {
-    element.setAttribute('src', 'Deathnote/misa_select.png');
+    element.setAttribute('src', 'Deathnote/images/misa_select.png');
 }
 
 const inputHandler = function(e) {
@@ -267,6 +302,23 @@ function typing(e) {
     var killText = document.getElementById("killText");
     var comboImage = document.getElementById("comboImage");
     var inGame = document.getElementById("inGame");
+    var ryukShop = document.getElementById("ryukShop");
+    var inGameElements = document.getElementById("inGameElements");
+    var applesText = document.getElementById("applesText");
+
+    console.log(e.which);   
+
+    if (ryukOpen) {
+        if (e.which === 27) {
+            ryukOpen = false;
+            ryukShop.style.display = "none";
+            inGameElements.style.display = "block";
+            bgMusicPlayer.play();
+            ryukMusicPlayer.pause();
+            ryukMusicPlayer.currentTime = 0;
+        }
+        return;
+    }
     
     if ((typed+key).toLowerCase() === word.slice(0, typed.length+1).toLowerCase()) {
         typed += key;
@@ -293,6 +345,13 @@ function typing(e) {
         }        
         pre.innerHTML = "";
         post.innerHTML = word;
+    } else if(e.which === 8) {
+        bgMusicPlayer.pause();
+        ryukMusicPlayer.play();
+        applesText.innerHTML = "&nbsp" + apples;
+        ryukShop.style.display = "block";
+        inGameElements.style.display = "none";
+        ryukOpen = true;
     } else {
         if (!l_dead) {
             if (character === "Light") {
@@ -305,8 +364,8 @@ function typing(e) {
                 endGame();
             }
         }        
-
-        comboImage.src = "Deathnote/combo1_light.png"
+        inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1)), url('Deathnote/images/particle-fire-header-ani.gif')";
+        comboImage.src = "Deathnote/images/combo1_light.png"
         if (combo > 1) {
             randomMistakeSound();
         } 
@@ -328,7 +387,7 @@ function typing(e) {
         }
 
         if (word === "l lawliet") {
-            l_dead = true;
+            endGame();
         }
 
         wordSequence = wordSequence + 1;
@@ -336,19 +395,20 @@ function typing(e) {
         if (wordSequence === 5) {
             wordSequence = 0;
             combo += 1;
+            apples += apple_modifier;
             boomMusicPlayer.volume = 1;
             boomMusicPlayer.src = audioFilesBoom[1];
             boomMusicPlayer.play();
             if (combo >= 6) {
-                comboImage.src = "Deathnote/combo5_light.png"
+                comboImage.src = "Deathnote/images/combo5_light.png"
                 combo = 6;
                 sound(combo);
-                inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('Deathnote/particle-fire-header-ani.gif')";
+                inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('Deathnote/images/particle-fire-header-ani.gif')";
             } else {
-                comboImage.src = "Deathnote/combo" + combo + "_light.png"
+                comboImage.src = "Deathnote/images/combo" + combo + "_light.png"
                 sound(combo);
                 var opac = 1 - (combo/100);
-                inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, " + opac + "), rgba(0, 0, 0, " + opac + ")), url('Deathnote/particle-fire-header-ani.gif')"; 
+                inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, " + opac + "), rgba(0, 0, 0, " + opac + ")), url('Deathnote/images/particle-fire-header-ani.gif')"; 
             }            
             
             rounded = Math.round(score/100)*100
@@ -418,6 +478,8 @@ function endGame() {
 
     var x = document.getElementById("inGame");
     var y = document.getElementById("preGame");
+    var ryukShop = document.getElementById("ryukShop");
+    var inGameElements = document.getElementById("inGameElements");
     var lastScore = document.getElementById("lastScore");
     var highScore = document.getElementById("highScore");
 
@@ -435,8 +497,10 @@ function endGame() {
     lastScore.innerHTML = last_score;
     highScore.innerHTML = high;
 
+    ryukShop.style.display = "none";
+    inGameElements.style.display = "block";
     x.style.display = "none";
-    y.style.display = "block";
+    y.style.display = "block";    
 }
 
 function sound(index) {
@@ -471,6 +535,10 @@ function gameStart(str) {
     sus = 0;
     combo = 1;
     typed = "";
+    ryukOpen = false;
+    apples = 0;
+    apple_modifier = 1;
+    l_dead = false;
 
     var score_element = document.getElementById("score");
     var score_text = document.getElementById("scoreText");
@@ -482,13 +550,15 @@ function gameStart(str) {
     var suspicion = document.getElementById("suspicion");
     var preKill = document.getElementById("kills");
     var susText = document.getElementById("susText");
+    var ryukShop = document.getElementById("ryukShop");
+
     susText.style.display = "inline-block";
     susText.innerHTML = "&nbsp" + sus + "%";
     suspicion.style.display = "inline-block";
     preKill.style.display = "inline-block"
     killText.style.display = "inline-block"
     killText.innerHTML = "&nbsp" + kills;
-
+    ryukShop.style.display = "none";
     
     var comboPercent = document.getElementById("combo");
     var comboContainer = document.getElementById("comboContainer");
@@ -500,7 +570,7 @@ function gameStart(str) {
 
     var comboImage = document.getElementById("comboImage");
 
-    comboImage.src = "Deathnote/combo1_light.png"
+    comboImage.src = "Deathnote/images/combo1_light.png"
 
     var postGame = document.getElementById("postGame");
     postGame.style.display = "none";
@@ -521,8 +591,6 @@ function gameStart(str) {
     var pre = document.getElementById("preWord");
     pre.innerHTML = "";
     post.innerHTML = word;
-
-    l_dead = false;
 
     character = str;
     var nextWord_element = document.getElementById("nextWord");
