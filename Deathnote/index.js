@@ -156,13 +156,11 @@ const inputHandler = function(e) {
 
 function random() {
     if (randomIndex.length == 0) {
-        for (var i = 0; i < names.length; i++) {
+        for (var i = 0; i < names.length-1; i++) {
             randomIndex[i] = i;
         }
     }
-
-    n = randomIndex[Math.floor(Math.random()*randomIndex.length)]
-    randomIndex.splice(n-1, 1);
+    n = randomIndex.splice(Math.floor(Math.random()*randomIndex.length), 1);
     return names[n].toLowerCase()
 }
 
@@ -304,9 +302,7 @@ function typing(e) {
     var inGame = document.getElementById("inGame");
     var ryukShop = document.getElementById("ryukShop");
     var inGameElements = document.getElementById("inGameElements");
-    var applesText = document.getElementById("applesText");
-
-    console.log(e.which);   
+    var applesText = document.getElementById("applesText"); 
 
     if (ryukOpen) {
         if (e.which === 27) {
@@ -357,7 +353,7 @@ function typing(e) {
             if (character === "Light") {
                 sus += 20;
             } else {
-                sus += 20;
+                sus += 40;
             }
     
             if (sus >= 100) {
@@ -379,7 +375,7 @@ function typing(e) {
     if (typed.length === word.length) {
         kills += 1;
         if (agents.includes(word) && !l_dead) {
-            sus += 25;
+            sus += 50;
 
             if (sus >= 100) {
                 endGame();
