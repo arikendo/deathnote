@@ -32,7 +32,7 @@ var agents = [
 var l_dead;
 var threshold;
 var kills = 0;
-var high_score = 0;
+var high_score = Number(getCookie("high_score"));
 var last_score = 0;
 var randomIndex = [];
 var ryukOpen = false;
