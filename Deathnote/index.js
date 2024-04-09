@@ -175,7 +175,7 @@ function showGame() {
 
     last_score = score;
     if (last_score > high_score) {
-        high_score === last_score;
+        high_score = last_score;
         document.cookie = "high_score=" + high_score + ";";
     }
 
@@ -563,6 +563,11 @@ function gameStart(str) {
     comboPercent.style.display = "block";
     comboText.style.display = "block";
     comboPercent.style.width = combo + "%";
+
+    var opac = 1;
+    var inGame = document.getElementById("inGame");
+    inGame.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, " + opac + "), rgba(0, 0, 0, " + opac + ")), url('Deathnote/images/particle-fire-header-ani.gif')"; 
+
 
     var comboImage = document.getElementById("comboImage");
 
