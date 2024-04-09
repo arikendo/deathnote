@@ -173,10 +173,11 @@ function showGame() {
     var lastScore = document.getElementById("lastScore");
     var highScore = document.getElementById("highScore");
 
+    high_score = Number(getCookie("high_score"));
+
     last_score = score;
     if (last_score > high_score) {
-        high_score = last_score;
-        document.cookie = "high_score=" + high_score + ";";
+        document.cookie = "high_score=" + last_score + ";";
     }
 
     let high = getCookie("high_score");
@@ -482,16 +483,15 @@ function endGame() {
     var nextWord_element = document.getElementById("nextWord");
     nextWord_element.innerHTML = '';
 
+    high_score = Number(getCookie("high_score"));
+
     last_score = score;
     if (last_score > high_score) {
-        high_score = last_score;
-        document.cookie = "high_score=" + high_score + ";";
+        document.cookie = "high_score=" + last_score + ";";
     }
 
-    let high = getCookie("high_score");
-
     lastScore.innerHTML = last_score;
-    highScore.innerHTML = high;
+    highScore.innerHTML = high_score;
 
     ryukShop.style.display = "none";
     inGameElements.style.display = "block";
