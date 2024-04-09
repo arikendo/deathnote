@@ -305,6 +305,10 @@ function typing(e) {
     var inGameElements = document.getElementById("inGameElements");
     var applesText = document.getElementById("applesText"); 
 
+    if (inGame.style.display === "none") {
+        return;
+    }
+
     if (ryukOpen) {
         if (e.which === 27) {
             ryukOpen = false;
