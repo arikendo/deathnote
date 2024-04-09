@@ -174,17 +174,16 @@ function showGame() {
     var highScore = document.getElementById("highScore");
 
     high_score = Number(getCookie("high_score"));
-    console.log(getCookie("high_score"));
 
     last_score = score;
     if (last_score > high_score) {
         document.cookie = "high_score=" + last_score + ";";
+        highScore.innerHTML = last_score;
+    } else {
+        highScore.innerHTML = high_score;
     }
 
-    let high = getCookie("high_score");
-
     lastScore.innerHTML = last_score;
-    highScore.innerHTML = high;
 }
 
 function stopShake() {
@@ -415,7 +414,6 @@ function typing(e) {
             var delta = Date.now() - start; // milliseconds elapsed since start
             currentSecs = Math.floor(delta / 1000); // in seconds
             document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
-            console.log(Math.ceil(combo * 1.5));
         } else {
             boomMusicPlayer.volume = 0.5;
             boomMusicPlayer.src = audioFilesBoom[0];
@@ -456,7 +454,6 @@ function typing(e) {
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
-    console.log(decodedCookie);
     let ca = decodedCookie.split(';');
     for(let i = 0; i <ca.length; i++) {
         let c = ca[i];
@@ -464,7 +461,6 @@ function getCookie(cname) {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
-            console.log(name.length, c.length);
             return c.substring(name.length, c.length);
         }
     }
@@ -487,15 +483,18 @@ function endGame() {
     nextWord_element.innerHTML = '';
 
     high_score = Number(getCookie("high_score"));
+
     console.log(getCookie("high_score"));
 
     last_score = score;
     if (score > high_score) {
         document.cookie = "high_score=" + last_score + ";";
+        highScore.innerHTML = last_score;
+    } else {
+        highScore.innerHTML = high_score;
     }
 
     lastScore.innerHTML = last_score;
-    highScore.innerHTML = high_score;
 
     ryukShop.style.display = "none";
     inGameElements.style.display = "block";
@@ -522,9 +521,9 @@ function startTime() {
     document.getElementById('seconds').innerHTML = "Time: " + Number(threshold - currentSecs);
     if (currentSecs >= threshold) {
         endGame(); 
-    }
-
-    setTimeout(startTime, 1000);
+    } else {
+        setTimeout(startTime, 1000);
+    }    
 }
 
 function gameStart(str) {
